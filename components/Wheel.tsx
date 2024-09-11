@@ -19,17 +19,13 @@ export default function Wheel() {
 
   const pan = Gesture.Pan()
     .onBegin((e) => {
-      const centerX = dimensions.width / 2;
-      const centerY = dimensions.height / 2;
-      const deltaX = e.absoluteX - centerX;
-      const deltaY = e.absoluteY - centerY;
+      const deltaX = e.absoluteX - dimensions.width / 2;
+      const deltaY = e.absoluteY - dimensions.height / 2;
       startAngle.value = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // Convert to degrees
     })
     .onUpdate((e) => {
-      const centerX = dimensions.width / 2;
-      const centerY = dimensions.height / 2;
-      const deltaX = e.absoluteX - centerX;
-      const deltaY = e.absoluteY - centerY;
+      const deltaX = e.absoluteX - dimensions.width / 2;
+      const deltaY = e.absoluteY - dimensions.height / 2;
       const currentAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // Convert to degrees
       rotation.value = previousRotation.value + (currentAngle - startAngle.value); // Update the rotation based on the difference between the starting angle and current angle
     })
