@@ -1,25 +1,33 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
+import * as ScreenOrientation from "expo-screen-orientation";
+import * as Device from "expo-device";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle } from "react-native-reanimated";
 
 export default function Wheel() {
-  const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
-  const centerX = windowWidth / 2;
-  const centerY = windowHeight / 2;
-  const wheelSize = windowWidth - 64;
+  const { height, width } = useWindowDimensions();
   const rotation = useSharedValue(0);
   const previousRotation = useSharedValue(0); // Store the previous rotation
   const startAngle = useSharedValue(0); // Track the starting angle of the gesture
+  const [dimensions, setDimensions] = useState({ width: width, height: height });
+  const wheelSize = Device.deviceType !== 1 ? 512 : 304; // Smaller on phones
+  const initWidth = width;
+  const initHeight = height;
+  const initOrientation = width > height ? "landscape" : "portrait";
 
   const pan = Gesture.Pan()
     .onBegin((e) => {
+      const centerX = dimensions.width / 2;
+      const centerY = dimensions.height / 2;
       const deltaX = e.absoluteX - centerX;
       const deltaY = e.absoluteY - centerY;
       startAngle.value = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // Convert to degrees
     })
     .onUpdate((e) => {
+      const centerX = dimensions.width / 2;
+      const centerY = dimensions.height / 2;
       const deltaX = e.absoluteX - centerX;
       const deltaY = e.absoluteY - centerY;
       const currentAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // Convert to degrees
@@ -33,6 +41,21 @@ export default function Wheel() {
     transform: [{ rotate: `${rotation.value}deg` }],
   }));
 
+  useEffect(() => {
+    ScreenOrientation.addOrientationChangeListener((e) => {
+      // Hack! - useWindowDimensions doesn't return correct dimensions when rotating iPad so use initial values instead
+      if (
+        (initOrientation === "portrait" && e.orientationInfo.orientation === 3) ||
+        (initOrientation === "portrait" && e.orientationInfo.orientation === 4) ||
+        (initOrientation === "landscape" && e.orientationInfo.orientation !== 3 && e.orientationInfo.orientation !== 4)
+      ) {
+        setDimensions({ width: initHeight, height: initWidth });
+      } else {
+        setDimensions({ width: initWidth, height: initHeight });
+      }
+    });
+  }, []);
+
   return (
     <GestureDetector gesture={pan}>
       <Animated.View
@@ -41,8 +64,6 @@ export default function Wheel() {
           {
             width: wheelSize,
             height: wheelSize,
-            marginHorizontal: (windowWidth - wheelSize) / 2,
-            marginVertical: (windowHeight - wheelSize) / 2,
           },
         ]}
         hitSlop={32}
