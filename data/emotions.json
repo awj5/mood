@@ -1,26 +1,62 @@
 [
   {
-    "color": "white"
+    "angle": 0,
+    "color": "#FFFFFF",
+    "emoji": "peace"
   },
   {
-    "color": "red"
+    "angle": 30,
+    "color": "#FF0000",
+    "emoji": "angry"
   },
   {
-    "color": "magenta"
+    "angle": 60,
+    "color": "#FF0080",
+    "emoji": "love"
   },
   {
-    "color": "blue"
+    "angle": 90,
+    "color": "#FF00FF",
+    "emoji": "stars"
   },
   {
-    "color": "black"
+    "angle": 120,
+    "color": "#8000FF",
+    "emoji": "sad"
   },
   {
-    "color": "cyan"
+    "angle": 150,
+    "color": "#0000FF",
+    "emoji": "cry"
   },
   {
-    "color": "green"
+    "angle": 180,
+    "color": "#000000",
+    "emoji": "dead"
   },
   {
-    "color": "yellow"
+    "angle": 210,
+    "color": "#00FFFF",
+    "emoji": "sleepy"
+  },
+  {
+    "angle": 240,
+    "color": "#00FF80",
+    "emoji": "shocked"
+  },
+  {
+    "angle": 270,
+    "color": "#00FF00",
+    "emoji": "smile"
+  },
+  {
+    "angle": 300,
+    "color": "#80FF00",
+    "emoji": "grin"
+  },
+  {
+    "angle": 330,
+    "color": "#FFFF00",
+    "emoji": "excited"
   }
 ]

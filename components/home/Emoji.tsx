@@ -1,28 +1,33 @@
 import { View, StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
+import { EmotionType } from "app";
 
 type EmojiProps = {
-  color: string;
+  emotion: EmotionType;
 };
 
 export default function Emoji(props: EmojiProps) {
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
-    white: require("../../assets/img/emoji/white.svg"),
-    red: require("../../assets/img/emoji/red.svg"),
-    magenta: require("../../assets/img/emoji/magenta.svg"),
-    blue: require("../../assets/img/emoji/blue.svg"),
-    black: require("../../assets/img/emoji/black.svg"),
-    cyan: require("../../assets/img/emoji/cyan.svg"),
-    lime: require("../../assets/img/emoji/lime.svg"),
-    yellow: require("../../assets/img/emoji/yellow.svg"),
+    peace: require("../../assets/img/emoji/peace.svg"),
+    angry: require("../../assets/img/emoji/angry.svg"),
+    love: require("../../assets/img/emoji/love.svg"),
+    cry: require("../../assets/img/emoji/cry.svg"),
+    dead: require("../../assets/img/emoji/dead.svg"),
+    sleepy: require("../../assets/img/emoji/sleepy.svg"),
+    smile: require("../../assets/img/emoji/smile.svg"),
+    excited: require("../../assets/img/emoji/excited.svg"),
+    stars: require("../../assets/img/emoji/stars.svg"),
+    sad: require("../../assets/img/emoji/sad.svg"),
+    shocked: require("../../assets/img/emoji/shocked.svg"),
+    grin: require("../../assets/img/emoji/grin.svg"),
   };
 
   return (
-    <View style={[styles.container, { width: size, height: size, backgroundColor: props.color }]}>
-      <Image source={emoji[props.color as keyof typeof emoji]} style={styles.image} />
+    <View style={[styles.container, { width: size, height: size, backgroundColor: props.emotion.color }]}>
+      <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={styles.image} />
     </View>
   );
 }

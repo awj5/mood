@@ -1,37 +1,51 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
+import EmotionData from "data/emotions.json";
 import Wheel from "components/home/Wheel";
 import Emoji from "components/home/Emoji";
 
+export type EmotionType = {
+  angle: number;
+  color: string;
+  emoji: string;
+};
+
 export default function Home() {
   const [angle, setAngle] = useState(0);
-  const [color, setColor] = useState("");
+  const [emotion, setEmotion] = useState<EmotionType>(EmotionData[0]);
 
   useEffect(() => {
-    // Snap to 1 of 8 angles (groups of 45 degrees)
-    if ((angle >= 337.5 && angle <= 360 && color !== "white") || (angle >= 0 && angle < 22.5 && color !== "white")) {
-      setColor("white");
-    } else if (angle >= 22.5 && angle < 67.5 && color !== "red") {
-      setColor("red");
-    } else if (angle >= 67.5 && angle < 112.5 && color !== "magenta") {
-      setColor("magenta");
-    } else if (angle >= 112.5 && angle < 157.5 && color !== "blue") {
-      setColor("blue");
-    } else if (angle >= 157.5 && angle < 202.5 && color !== "black") {
-      setColor("black");
-    } else if (angle >= 202.5 && angle < 247.5 && color !== "cyan") {
-      setColor("cyan");
-    } else if (angle >= 247.5 && angle < 292.5 && color !== "lime") {
-      setColor("lime");
-    } else if (angle >= 292.5 && angle < 337.5 && color !== "yellow") {
-      setColor("yellow");
+    // Snap to 1 of 12 angles (groups of 30 degrees)
+    if ((angle >= 345 && angle <= 360 && emotion.angle !== 0) || (angle >= 0 && angle < 15 && emotion.angle !== 0)) {
+      setEmotion(EmotionData[0]); // White
+    } else if (angle >= 15 && angle < 45 && emotion.angle !== 30) {
+      setEmotion(EmotionData[1]); // Red
+    } else if (angle >= 45 && angle < 75 && emotion.angle !== 60) {
+      setEmotion(EmotionData[2]); // Magenta red
+    } else if (angle >= 75 && angle < 105 && emotion.angle !== 90) {
+      setEmotion(EmotionData[3]); // Magenta
+    } else if (angle >= 105 && angle < 135 && emotion.angle !== 120) {
+      setEmotion(EmotionData[4]); // Blue magenta
+    } else if (angle >= 135 && angle < 165 && emotion.angle !== 150) {
+      setEmotion(EmotionData[5]); // Blue
+    } else if (angle >= 165 && angle < 195 && emotion.angle !== 180) {
+      setEmotion(EmotionData[6]); // Black
+    } else if (angle >= 195 && angle < 225 && emotion.angle !== 210) {
+      setEmotion(EmotionData[7]); // Cyan
+    } else if (angle >= 225 && angle < 255 && emotion.angle !== 240) {
+      setEmotion(EmotionData[8]); // Green cyan
+    } else if (angle >= 255 && angle < 285 && emotion.angle !== 270) {
+      setEmotion(EmotionData[9]); // Green
+    } else if (angle >= 285 && angle < 315 && emotion.angle !== 300) {
+      setEmotion(EmotionData[10]); // Yellow green
+    } else if (angle >= 315 && angle < 345 && emotion.angle !== 330) {
+      setEmotion(EmotionData[11]); // Yellow
     }
   }, [angle]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{angle}</Text>
-      <Emoji color={color} />
+      <Emoji emotion={emotion} />
       <Wheel setAngle={setAngle} />
     </View>
   );
