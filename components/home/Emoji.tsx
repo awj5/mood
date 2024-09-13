@@ -1,6 +1,9 @@
-import { View, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
+import * as Haptics from "expo-haptics";
+import Animated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
 import { EmotionType } from "app";
 
 type EmojiProps = {
@@ -8,6 +11,7 @@ type EmojiProps = {
 };
 
 export default function Emoji(props: EmojiProps) {
+  const backgroundColor = useSharedValue("transparent");
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
@@ -25,10 +29,15 @@ export default function Emoji(props: EmojiProps) {
     grin: require("../../assets/img/emoji/grin.svg"),
   };
 
+  useEffect(() => {
+    backgroundColor.value = withTiming(props.emotion.color, { duration: 200, easing: Easing.linear });
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  }, [props.emotion]);
+
   return (
-    <View style={[styles.container, { width: size, height: size, backgroundColor: props.emotion.color }]}>
+    <Animated.View style={[styles.container, { width: size, height: size, backgroundColor }]}>
       <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={styles.image} />
-    </View>
+    </Animated.View>
   );
 }
 
