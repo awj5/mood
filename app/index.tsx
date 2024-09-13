@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import EmotionData from "data/emotions.json";
 import Wheel from "components/home/Wheel";
 import Emoji from "components/home/Emoji";
+import Instructions from "components/home/Instructions";
+import Heading from "components/home/Heading";
+import Button from "components/home/Button";
 
 export type EmotionType = {
   angle: number;
@@ -45,8 +48,11 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
+      <Heading />
       <Emoji emotion={emotion} />
       <Wheel setAngle={setAngle} />
+      <Instructions />
+      <Button />
     </View>
   );
 }
@@ -56,9 +62,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  text: {
-    position: "absolute",
-    top: 128,
   },
 });

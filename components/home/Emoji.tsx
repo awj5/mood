@@ -3,8 +3,10 @@ import { StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
-import Animated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { EmotionType } from "app";
+import { theme } from "utils/helpers";
 
 type EmojiProps = {
   emotion: EmotionType;
@@ -12,6 +14,8 @@ type EmojiProps = {
 
 export default function Emoji(props: EmojiProps) {
   const backgroundColor = useSharedValue("transparent");
+  const opacity = useSharedValue(0);
+  const colors = theme();
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
@@ -29,13 +33,29 @@ export default function Emoji(props: EmojiProps) {
     grin: require("../../assets/img/emoji/grin.svg"),
   };
 
+  const animatedStyles = useAnimatedStyle(() => ({
+    backgroundColor: backgroundColor.value,
+    opacity: opacity.value,
+  }));
+
   useEffect(() => {
     backgroundColor.value = withTiming(props.emotion.color, { duration: 200, easing: Easing.linear });
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   }, [props.emotion]);
 
+  useEffect(() => {
+    opacity.value = withDelay(1000, withTiming(1, { duration: 500, easing: Easing.in(Easing.cubic) }));
+  }, []);
+
   return (
-    <Animated.View style={[styles.container, { width: size, height: size, backgroundColor }]}>
+    <Animated.View style={[styles.container, animatedStyles, { width: size, height: size }]}>
+      <Ionicons
+        name="caret-down-sharp"
+        size={Device.deviceType !== 1 ? 32 : 24}
+        color={colors.secondary}
+        style={[styles.caret, { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8 }]}
+      />
+
       <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={styles.image} />
     </Animated.View>
   );
@@ -45,6 +65,10 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     borderRadius: 999,
+    alignItems: "center",
+  },
+  caret: {
+    position: "absolute",
   },
   image: {
     width: "100%",

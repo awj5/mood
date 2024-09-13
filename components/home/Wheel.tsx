@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, useWindowDimensions } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import * as ScreenOrientation from "expo-screen-orientation";
 import * as Device from "expo-device";
@@ -12,22 +12,19 @@ import Animated, {
   withDelay,
   runOnJS,
 } from "react-native-reanimated";
+import useDeviceDimensions from "utils/useDeviceDimensions";
 
 type WheelProps = {
   setAngle: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function Wheel(props: WheelProps) {
-  const { height, width } = useWindowDimensions();
+  const dimensions = useDeviceDimensions();
   const opacity = useSharedValue(0);
   const rotation = useSharedValue(-360);
   const previousRotation = useSharedValue(0); // Store the previous rotation
   const startAngle = useSharedValue(0); // Track the starting angle of the gesture
-  const [dimensions, setDimensions] = useState({ width: width, height: height });
   const size = Device.deviceType !== 1 ? 448 : 304; // Smaller on phones
-  const initWidth = width;
-  const initHeight = height;
-  const initOrientation = width > height ? "landscape" : "portrait";
 
   const pan = Gesture.Pan()
     .onBegin((e) => {
@@ -71,17 +68,6 @@ export default function Wheel(props: WheelProps) {
       previousRotation.value = 0;
       startAngle.value = 0;
       props.setAngle(0);
-
-      // Hack! - useWindowDimensions doesn't return correct dimensions when rotating iPad so use initial values instead
-      if (
-        (initOrientation === "portrait" && e.orientationInfo.orientation === 3) ||
-        (initOrientation === "portrait" && e.orientationInfo.orientation === 4) ||
-        (initOrientation === "landscape" && e.orientationInfo.orientation !== 3 && e.orientationInfo.orientation !== 4)
-      ) {
-        setDimensions({ width: initHeight, height: initWidth });
-      } else {
-        setDimensions({ width: initWidth, height: initHeight });
-      }
     });
 
     return () => ScreenOrientation.removeOrientationChangeListener(subscription); // Clean up
