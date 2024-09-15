@@ -4,6 +4,7 @@ import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { CircleArrowRight } from "lucide-react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import useDeviceDimensions from "utils/useDeviceDimensions";
 import { theme } from "utils/helpers";
 
@@ -31,7 +32,7 @@ export default function Button() {
           : { paddingTop: Device.deviceType !== 1 ? 224 : 152 },
       ]}
     >
-      <CircleArrowRight color={colors.primary} size={Device.deviceType !== 1 ? 80 : 64} />
+      <Ionicons name="arrow-forward-circle-outline" size={Device.deviceType !== 1 ? 96 : 72} color={colors.primary} />
     </Animated.View>
   );
 }

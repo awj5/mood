@@ -50,7 +50,7 @@ export default function Emoji(props: EmojiProps) {
   return (
     <Animated.View style={[styles.container, animatedStyles, { width: size, height: size }]}>
       <Ionicons
-        name="caret-down-sharp"
+        name="caret-down"
         size={Device.deviceType !== 1 ? 32 : 24}
         color={colors.secondary}
         style={[styles.caret, { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8 }]}

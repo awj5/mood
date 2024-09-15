@@ -14,7 +14,7 @@ export default function Instructions() {
 
   return (
     <Animated.View style={[styles.container, { opacity, marginTop: Device.deviceType !== 1 ? 224 + 32 : 152 + 24 }]}>
-      <Text style={[styles.text, { color: colors.secondary, fontSize: Device.deviceType !== 1 ? 20 : 16 }]}>
+      <Text style={[styles.text, { color: colors.secondary, fontSize: Device.deviceType !== 1 ? 24 : 16 }]}>
         Rotate the color wheel to{"\n"}express your current mood
       </Text>
     </Animated.View>
