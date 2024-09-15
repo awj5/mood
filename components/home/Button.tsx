@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
-import { CircleArrowRight } from "lucide-react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import useDeviceDimensions from "utils/useDeviceDimensions";
 import { theme } from "utils/helpers";
