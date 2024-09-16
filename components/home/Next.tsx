@@ -7,11 +7,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import useDeviceDimensions from "utils/useDeviceDimensions";
 import { theme, pressedDefault } from "utils/helpers";
 
-type ButtonProps = {
+type NextProps = {
   setShowList: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Button(props: ButtonProps) {
+export default function Next(props: NextProps) {
   const opacity = useSharedValue(0);
   const insets = useSafeAreaInsets();
   const colors = theme();

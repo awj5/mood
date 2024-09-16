@@ -22,13 +22,13 @@ type EmojiProps = {
 };
 
 export default function Emoji(props: EmojiProps) {
+  const colors = theme();
   const backgroundColor = useSharedValue("transparent");
   const opacity = useSharedValue(0);
-  const colors = theme();
   const device = useDeviceDimensions();
+  const borderRadius = useSharedValue(0);
   const width = useSharedValue(0);
   const height = useSharedValue(0);
-  const borderRadius = useSharedValue(0);
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
@@ -48,10 +48,10 @@ export default function Emoji(props: EmojiProps) {
 
   const animatedStyles = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
-    opacity: opacity.value,
     width: width.value,
     height: height.value,
     borderRadius: borderRadius.value,
+    opacity: opacity.value,
   }));
 
   useEffect(() => {
@@ -82,17 +82,18 @@ export default function Emoji(props: EmojiProps) {
 
   return (
     <Animated.View style={[styles.container, animatedStyles, { zIndex: props.showList ? 1 : 0 }]}>
-      <Ionicons
-        name="caret-down"
-        size={Device.deviceType !== 1 ? 32 : 24}
-        color={colors.secondary}
-        style={[
-          styles.caret,
-          { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8, display: props.showList ? "none" : "flex" },
-        ]}
-      />
+      {!props.showList && (
+        <>
+          <Ionicons
+            name="caret-down"
+            size={Device.deviceType !== 1 ? 32 : 24}
+            color={colors.secondary}
+            style={[styles.caret, { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8 }]}
+          />
 
-      <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={{ width: size, height: size }} />
+          <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={styles.image} />
+        </>
+      )}
     </Animated.View>
   );
 }
@@ -101,10 +102,12 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     alignItems: "center",
-    justifyContent: "center",
   },
   caret: {
     position: "absolute",
-    top: 0,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
   },
 });

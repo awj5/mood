@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import EmotionData from "data/emotions.json";
 import Wheel from "components/home/Wheel";
 import Emoji from "components/home/Emoji";
 import Instructions from "components/home/Instructions";
 import Heading from "components/home/Heading";
-import Button from "components/home/Button";
+import Next from "components/home/Next";
 import Close from "components/home/Close";
+import ListHeading from "components/home/ListHeading";
+import List from "components/home/List";
+import useDeviceDimensions from "utils/useDeviceDimensions";
 
 export type EmotionType = {
   angle: number;
   color: string;
   emoji: string;
+  words: string[];
 };
 
 export default function Home() {
+  const device = useDeviceDimensions();
   const [angle, setAngle] = useState(0);
   const [emotion, setEmotion] = useState<EmotionType>(EmotionData[0]);
   const [showList, setShowList] = useState(false);
@@ -53,9 +58,16 @@ export default function Home() {
       <Heading />
       <Emoji emotion={emotion} showList={showList} />
       <Instructions />
-      <Button setShowList={setShowList} />
+      <Next setShowList={setShowList} />
       <Wheel setAngle={setAngle} />
-      {showList && <Close setShowList={setShowList} emotion={emotion} />}
+
+      {showList && (
+        <>
+          <ListHeading width={device.width} height={device.height} angle={emotion.angle} />
+          <List emotion={emotion} />
+          <Close setShowList={setShowList} angle={emotion.angle} />
+        </>
+      )}
     </View>
   );
 }

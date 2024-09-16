@@ -2,61 +2,73 @@
   {
     "angle": 0,
     "color": "#FFFFFF",
-    "emoji": "peace"
+    "emoji": "peace",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 30,
     "color": "#FF0000",
-    "emoji": "angry"
+    "emoji": "angry",
+    "words": ["Angry", "Frustrated", "Pressured", "Stressed", "Tense"]
   },
   {
     "angle": 60,
     "color": "#FF0080",
-    "emoji": "love"
+    "emoji": "love",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 90,
     "color": "#FF00FF",
-    "emoji": "stars"
+    "emoji": "stars",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 120,
     "color": "#8000FF",
-    "emoji": "sad"
+    "emoji": "sad",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 150,
     "color": "#0000FF",
-    "emoji": "cry"
+    "emoji": "cry",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 180,
     "color": "#000000",
-    "emoji": "dead"
+    "emoji": "dead",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 210,
     "color": "#00FFFF",
-    "emoji": "sleepy"
+    "emoji": "sleepy",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 240,
     "color": "#00FF80",
-    "emoji": "shocked"
+    "emoji": "shocked",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 270,
     "color": "#00FF00",
-    "emoji": "smile"
+    "emoji": "smile",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 300,
     "color": "#80FF00",
-    "emoji": "grin"
+    "emoji": "grin",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   },
   {
     "angle": 330,
     "color": "#FFFF00",
-    "emoji": "excited"
+    "emoji": "excited",
+    "words": ["Relaxed", "Clear", "Content", "Awe"]
   }
 ]

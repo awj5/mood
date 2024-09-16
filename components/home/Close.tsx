@@ -2,12 +2,11 @@ import { StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { EmotionType } from "app";
 import { pressedDefault } from "utils/helpers";
 
 type CloseProps = {
   setShowList: React.Dispatch<React.SetStateAction<boolean>>;
-  emotion: EmotionType;
+  angle: number;
 };
 
 export default function Close(props: CloseProps) {
@@ -26,7 +25,7 @@ export default function Close(props: CloseProps) {
       <Ionicons
         name="close-circle"
         size={Device.deviceType !== 1 ? 40 : 32}
-        color={props.emotion.angle >= 120 && props.emotion.angle <= 180 ? "white" : "black"}
+        color={props.angle >= 120 && props.angle <= 180 ? "white" : "black"}
       />
     </Pressable>
   );

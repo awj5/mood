@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
-import * as ScreenOrientation from "expo-screen-orientation";
 import * as Device from "expo-device";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -61,16 +60,6 @@ export default function Wheel(props: WheelProps) {
     // Animate in
     rotation.value = withDelay(500, withTiming(0, { duration: 1000, easing: Easing.out(Easing.cubic) }));
     opacity.value = withDelay(500, withTiming(1, { duration: 1000, easing: Easing.in(Easing.cubic) }));
-
-    const subscription = ScreenOrientation.addOrientationChangeListener((e) => {
-      // Reset wheel
-      rotation.value = 0;
-      previousRotation.value = 0;
-      startAngle.value = 0;
-      props.setAngle(0);
-    });
-
-    return () => ScreenOrientation.removeOrientationChangeListener(subscription); // Clean up
   }, []);
 
   return (

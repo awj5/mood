@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useWindowDimensions } from "react-native";
+import { Dimensions } from "react-native";
 import * as ScreenOrientation from "expo-screen-orientation";
 
-// Hack! - useWindowDimensions doesn't return correct dimensions when rotating iPad so
+// Hack! - useWindowDimensions/Dimensions doesn't return correct dimensions when rotating iPad so
 
 const useDeviceDimensions = () => {
-  const { height, width } = useWindowDimensions();
+  const height = Dimensions.get("screen").height;
+  const width = Dimensions.get("screen").width;
   const [dimensions, setDimensions] = useState({ width: width, height: height });
   const initWidth = width;
   const initHeight = height;
