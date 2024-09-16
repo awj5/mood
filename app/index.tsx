@@ -6,6 +6,7 @@ import Emoji from "components/home/Emoji";
 import Instructions from "components/home/Instructions";
 import Heading from "components/home/Heading";
 import Button from "components/home/Button";
+import Close from "components/home/Close";
 
 export type EmotionType = {
   angle: number;
@@ -16,6 +17,7 @@ export type EmotionType = {
 export default function Home() {
   const [angle, setAngle] = useState(0);
   const [emotion, setEmotion] = useState<EmotionType>(EmotionData[0]);
+  const [showList, setShowList] = useState(false);
 
   useEffect(() => {
     // Snap to 1 of 12 angles (groups of 30 degrees)
@@ -49,10 +51,11 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Heading />
-      <Emoji emotion={emotion} />
-      <Wheel setAngle={setAngle} />
+      <Emoji emotion={emotion} showList={showList} />
       <Instructions />
-      <Button />
+      <Button setShowList={setShowList} />
+      <Wheel setAngle={setAngle} />
+      {showList && <Close setShowList={setShowList} emotion={emotion} />}
     </View>
   );
 }

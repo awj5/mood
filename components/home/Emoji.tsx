@@ -4,18 +4,31 @@ import * as Device from "expo-device";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 import { EmotionType } from "app";
+import useDeviceDimensions from "utils/useDeviceDimensions";
 import { theme } from "utils/helpers";
 
 type EmojiProps = {
   emotion: EmotionType;
+  showList: boolean;
 };
 
 export default function Emoji(props: EmojiProps) {
   const backgroundColor = useSharedValue("transparent");
   const opacity = useSharedValue(0);
   const colors = theme();
+  const device = useDeviceDimensions();
+  const width = useSharedValue(0);
+  const height = useSharedValue(0);
+  const borderRadius = useSharedValue(0);
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
@@ -36,6 +49,9 @@ export default function Emoji(props: EmojiProps) {
   const animatedStyles = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
     opacity: opacity.value,
+    width: width.value,
+    height: height.value,
+    borderRadius: borderRadius.value,
   }));
 
   useEffect(() => {
@@ -44,19 +60,39 @@ export default function Emoji(props: EmojiProps) {
   }, [props.emotion]);
 
   useEffect(() => {
+    if (props.showList) {
+      // Expand background
+      const fullscreen = device.width > device.height ? device.width : device.height;
+      width.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
+      height.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
+      borderRadius.value = withTiming(0, { duration: 500, easing: Easing.in(Easing.cubic) });
+    } else {
+      // Reset
+      runOnJS(() => {
+        width.value = size;
+        height.value = size;
+        borderRadius.value = 999;
+      })();
+    }
+  }, [props.showList]);
+
+  useEffect(() => {
     opacity.value = withDelay(1500, withTiming(1, { duration: 500, easing: Easing.in(Easing.cubic) }));
   }, []);
 
   return (
-    <Animated.View style={[styles.container, animatedStyles, { width: size, height: size }]}>
+    <Animated.View style={[styles.container, animatedStyles, { zIndex: props.showList ? 1 : 0 }]}>
       <Ionicons
         name="caret-down"
         size={Device.deviceType !== 1 ? 32 : 24}
         color={colors.secondary}
-        style={[styles.caret, { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8 }]}
+        style={[
+          styles.caret,
+          { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8, display: props.showList ? "none" : "flex" },
+        ]}
       />
 
-      <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={styles.image} />
+      <Image source={emoji[props.emotion.emoji as keyof typeof emoji]} style={{ width: size, height: size }} />
     </Animated.View>
   );
 }
@@ -64,14 +100,11 @@ export default function Emoji(props: EmojiProps) {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    borderRadius: 999,
     alignItems: "center",
+    justifyContent: "center",
   },
   caret: {
     position: "absolute",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
+    top: 0,
   },
 });

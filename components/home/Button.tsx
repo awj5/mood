@@ -1,13 +1,17 @@
 import { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import useDeviceDimensions from "utils/useDeviceDimensions";
-import { theme } from "utils/helpers";
+import { theme, pressedDefault } from "utils/helpers";
 
-export default function Button() {
+type ButtonProps = {
+  setShowList: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Button(props: ButtonProps) {
   const opacity = useSharedValue(0);
   const insets = useSafeAreaInsets();
   const colors = theme();
@@ -31,7 +35,9 @@ export default function Button() {
           : { paddingTop: Device.deviceType !== 1 ? 224 : 152 },
       ]}
     >
-      <Ionicons name="arrow-forward-circle-outline" size={Device.deviceType !== 1 ? 96 : 72} color={colors.primary} />
+      <Pressable onPress={() => props.setShowList(true)} style={({ pressed }) => pressedDefault(pressed)} hitSlop={16}>
+        <Ionicons name="arrow-forward-circle-outline" size={Device.deviceType !== 1 ? 96 : 72} color={colors.primary} />
+      </Pressable>
     </Animated.View>
   );
 }
