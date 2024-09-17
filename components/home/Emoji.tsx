@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
@@ -29,6 +29,7 @@ export default function Emoji(props: EmojiProps) {
   const borderRadius = useSharedValue(0);
   const width = useSharedValue(0);
   const height = useSharedValue(0);
+  const [expanded, setExpanded] = useState(false);
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
@@ -66,12 +67,14 @@ export default function Emoji(props: EmojiProps) {
       width.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
       height.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
       borderRadius.value = withTiming(0, { duration: 500, easing: Easing.in(Easing.cubic) });
+      setExpanded(true);
     } else {
       // Reset
       runOnJS(() => {
         width.value = size;
         height.value = size;
         borderRadius.value = 999;
+        setExpanded(false);
       })();
     }
   }, [props.showList]);
@@ -81,8 +84,8 @@ export default function Emoji(props: EmojiProps) {
   }, []);
 
   return (
-    <Animated.View style={[styles.container, animatedStyles, { zIndex: props.showList ? 1 : 0 }]}>
-      {!props.showList && (
+    <Animated.View style={[styles.container, animatedStyles, { zIndex: expanded ? 1 : 0 }]}>
+      {!expanded && (
         <>
           <Ionicons
             name="caret-down"

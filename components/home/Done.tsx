@@ -53,6 +53,7 @@ export default function Done(props: DoneProps) {
             {
               color: props.angle >= 120 && props.angle <= 180 ? "white" : "black",
               fontSize: Device.deviceType !== 1 ? 36 : 30,
+              lineHeight: Device.deviceType !== 1 ? 44 : 38,
             },
           ]}
         >
