@@ -45,7 +45,7 @@
     "angle": 210,
     "color": "#00FFFF",
     "emoji": "sleepy",
-    "words": ["Relaxed", "Clear", "Content", "Awe"]
+    "words": ["Relaxed", "Serene", "Relieved", "Accepting"]
   },
   {
     "angle": 240,
@@ -69,6 +69,6 @@
     "angle": 330,
     "color": "#FFFF00",
     "emoji": "excited",
-    "words": ["Relaxed", "Clear", "Content", "Awe"]
+    "words": ["Joyful", "Excited", "Surprised", "Awake"]
   }
 ]
