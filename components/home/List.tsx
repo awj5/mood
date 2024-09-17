@@ -55,7 +55,7 @@ function Item(props: ItemProps) {
             },
           ]}
         >
-          <Animated.View style={animatedStyles}>
+          <Animated.View style={[animatedStyles, styles.check]}>
             <Ionicons
               name="checkmark"
               size={Device.deviceType !== 1 ? 32 : 24}
@@ -109,6 +109,9 @@ const styles = StyleSheet.create({
   },
   checkmark: {
     borderRadius: 999,
+  },
+  check: {
+    transformOrigin: "bottom left",
   },
   text: {
     fontFamily: "Circular-Medium",

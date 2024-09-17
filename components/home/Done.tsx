@@ -42,7 +42,7 @@ export default function Done(props: DoneProps) {
             borderWidth: Device.deviceType !== 1 ? 3 : 2.5,
             borderColor: props.angle >= 120 && props.angle <= 180 ? "white" : "black",
             paddingHorizontal: Device.deviceType !== 1 ? 24 : 20,
-            paddingVertical: Device.deviceType !== 1 ? 6 : 4,
+            paddingVertical: Device.deviceType !== 1 ? 8 : 6,
           },
         ]}
         hitSlop={16}
