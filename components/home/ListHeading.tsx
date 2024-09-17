@@ -28,8 +28,8 @@ export default function ListHeading(props: ListHeadingProps) {
           paddingTop: insets.top,
         },
         props.width > props.height
-          ? { paddingRight: Device.deviceType !== 1 ? 192 : 130, paddingBottom: insets.bottom }
-          : { paddingBottom: Device.deviceType !== 1 ? 192 : 130 },
+          ? { paddingRight: Device.deviceType !== 1 ? 224 : 152, paddingBottom: insets.bottom }
+          : { paddingBottom: Device.deviceType !== 1 ? 224 : 152 },
       ]}
     >
       <Text

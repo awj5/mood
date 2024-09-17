@@ -9,6 +9,7 @@ import Next from "components/home/Next";
 import Close from "components/home/Close";
 import ListHeading from "components/home/ListHeading";
 import List from "components/home/List";
+import Done from "components/home/Done";
 import useDeviceDimensions from "utils/useDeviceDimensions";
 
 export type EmotionType = {
@@ -64,6 +65,7 @@ export default function Home() {
       {showList && (
         <>
           <ListHeading width={device.width} height={device.height} angle={emotion.angle} />
+          <Done width={device.width} height={device.height} angle={emotion.angle} />
           <List emotion={emotion} />
           <Close setShowList={setShowList} angle={emotion.angle} />
         </>

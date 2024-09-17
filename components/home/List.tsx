@@ -85,7 +85,7 @@ type ListProps = {
 };
 
 export default function List(props: ListProps) {
-  const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
+  const size = Device.deviceType !== 1 ? 448 : 304; // Smaller on phones
 
   return (
     <View style={[styles.container, { maxWidth: size, gap: Device.deviceType !== 1 ? 32 : 24 }]}>
