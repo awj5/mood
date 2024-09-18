@@ -3,14 +3,7 @@ import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import * as Device from "expo-device";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  Easing,
-  withDelay,
-  runOnJS,
-} from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, runOnJS } from "react-native-reanimated";
 import useDeviceDimensions from "utils/useDeviceDimensions";
 
 type WheelProps = {
@@ -58,8 +51,8 @@ export default function Wheel(props: WheelProps) {
 
   useEffect(() => {
     // Animate in
-    rotation.value = withDelay(500, withTiming(0, { duration: 1000, easing: Easing.out(Easing.cubic) }));
-    opacity.value = withDelay(500, withTiming(1, { duration: 1000, easing: Easing.in(Easing.cubic) }));
+    rotation.value = withTiming(0, { duration: 1000, easing: Easing.out(Easing.cubic) });
+    opacity.value = withTiming(1, { duration: 1000, easing: Easing.in(Easing.cubic) });
   }, []);
 
   return (

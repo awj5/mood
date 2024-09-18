@@ -34,10 +34,14 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack
         screenOptions={{
-          headerShown: false,
           contentStyle: {
             backgroundColor: colors.primaryBg,
           },
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: colors.primaryBg,
+          },
+          headerTintColor: colors.primary,
         }}
       />
     </GestureHandlerRootView>

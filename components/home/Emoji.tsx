@@ -80,7 +80,7 @@ export default function Emoji(props: EmojiProps) {
   }, [props.showList]);
 
   useEffect(() => {
-    opacity.value = withDelay(1500, withTiming(1, { duration: 500, easing: Easing.in(Easing.cubic) }));
+    opacity.value = withDelay(1000, withTiming(1, { duration: 500, easing: Easing.in(Easing.cubic) }));
   }, []);
 
   return (

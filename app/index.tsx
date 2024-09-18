@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
+import { Stack, useFocusEffect } from "expo-router";
 import EmotionData from "data/emotions.json";
 import Wheel from "components/home/Wheel";
 import Emoji from "components/home/Emoji";
@@ -23,6 +24,7 @@ export default function Home() {
   const device = useDeviceDimensions();
   const [angle, setAngle] = useState(0);
   const [emotion, setEmotion] = useState<EmotionType>(EmotionData[0]);
+  const [visible, setVisible] = useState(false);
   const [showList, setShowList] = useState(false);
 
   useEffect(() => {
@@ -54,20 +56,40 @@ export default function Home() {
     }
   }, [angle]);
 
+  useFocusEffect(
+    useCallback(() => {
+      setVisible(true);
+      setShowList(false);
+
+      return () => {
+        // Wait for screen transition to finish
+        setTimeout(() => {
+          setVisible(false);
+        }, 500);
+      };
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
-      <Heading />
-      <Emoji emotion={emotion} showList={showList} />
-      <Instructions />
-      <Next setShowList={setShowList} />
-      <Wheel setAngle={setAngle} />
+      <Stack.Screen options={{ headerShown: false }} />
 
-      {showList && (
+      {visible && (
         <>
-          <ListHeading width={device.width} height={device.height} angle={emotion.angle} />
-          <Done width={device.width} height={device.height} angle={emotion.angle} />
-          <List emotion={emotion} />
-          <Close setShowList={setShowList} angle={emotion.angle} />
+          <Heading />
+          <Emoji emotion={emotion} showList={showList} />
+          <Instructions />
+          <Next setShowList={setShowList} />
+          <Wheel setAngle={setAngle} />
+
+          {showList && (
+            <>
+              <ListHeading width={device.width} height={device.height} angle={emotion.angle} />
+              <Done width={device.width} height={device.height} angle={emotion.angle} />
+              <List emotion={emotion} />
+              <Close setShowList={setShowList} angle={emotion.angle} />
+            </>
+          )}
         </>
       )}
     </View>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
 import * as Device from "expo-device";
+import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { pressedDefault } from "utils/helpers";
@@ -14,6 +15,7 @@ type DoneProps = {
 export default function Done(props: DoneProps) {
   const opacity = useSharedValue(0);
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   useEffect(() => {
     opacity.value = withDelay(2000, withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) }));
@@ -34,7 +36,7 @@ export default function Done(props: DoneProps) {
       ]}
     >
       <Pressable
-        onPress={() => null}
+        onPress={() => router.push("ai")}
         style={({ pressed }) => [
           pressedDefault(pressed),
           styles.button,

@@ -9,7 +9,7 @@ export default function Instructions() {
   const colors = theme();
 
   useEffect(() => {
-    opacity.value = withDelay(2000, withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) }));
+    opacity.value = withDelay(1500, withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) }));
   }, []);
 
   return (
