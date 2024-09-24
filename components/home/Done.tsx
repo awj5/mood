@@ -1,14 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
 import * as Device from "expo-device";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
+import { DimensionsContext, DimensionsContextType } from "context/dimensions";
 import { pressedDefault } from "utils/helpers";
 
 type DoneProps = {
-  width: number;
-  height: number;
   angle: number;
 };
 
@@ -16,6 +15,7 @@ export default function Done(props: DoneProps) {
   const opacity = useSharedValue(0);
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
 
   useEffect(() => {
     opacity.value = withDelay(2000, withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) }));
@@ -25,12 +25,12 @@ export default function Done(props: DoneProps) {
     <Animated.View
       style={[
         styles.container,
-        props.width > props.height ? styles.landscape : styles.portrait,
+        dimensions.width > dimensions.height ? styles.landscape : styles.portrait,
         {
           opacity,
           paddingBottom: insets.bottom,
         },
-        props.width > props.height
+        dimensions.width > dimensions.height
           ? { paddingLeft: Device.deviceType !== 1 ? 224 : 152, paddingTop: insets.top }
           : { paddingTop: Device.deviceType !== 1 ? 224 : 152 },
       ]}
@@ -41,7 +41,6 @@ export default function Done(props: DoneProps) {
           pressedDefault(pressed),
           styles.button,
           {
-            borderWidth: Device.deviceType !== 1 ? 3 : 2.5,
             borderColor: props.angle >= 120 && props.angle <= 180 ? "white" : "black",
             paddingHorizontal: Device.deviceType !== 1 ? 24 : 20,
             paddingVertical: Device.deviceType !== 1 ? 8 : 6,
@@ -84,6 +83,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 999,
+    borderWidth: 2,
   },
   text: {
     fontFamily: "Circular-Book",

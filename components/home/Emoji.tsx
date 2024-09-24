@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
@@ -12,8 +12,8 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
+import { DimensionsContext, DimensionsContextType } from "context/dimensions";
 import { EmotionType } from "app";
-import useDeviceDimensions from "utils/useDeviceDimensions";
 import { theme } from "utils/helpers";
 
 type EmojiProps = {
@@ -25,10 +25,10 @@ export default function Emoji(props: EmojiProps) {
   const colors = theme();
   const backgroundColor = useSharedValue("transparent");
   const opacity = useSharedValue(0);
-  const device = useDeviceDimensions();
   const borderRadius = useSharedValue(0);
   const width = useSharedValue(0);
   const height = useSharedValue(0);
+  const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
   const [expanded, setExpanded] = useState(false);
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
@@ -63,7 +63,7 @@ export default function Emoji(props: EmojiProps) {
   useEffect(() => {
     if (props.showList) {
       // Expand background
-      const fullscreen = device.width > device.height ? device.width : device.height;
+      const fullscreen = dimensions.width > dimensions.height ? dimensions.width : dimensions.height;
       width.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
       height.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
       borderRadius.value = withTiming(0, { duration: 500, easing: Easing.in(Easing.cubic) });
@@ -88,7 +88,7 @@ export default function Emoji(props: EmojiProps) {
       {!expanded && (
         <>
           <Ionicons
-            name="caret-down"
+            name="caret-down-sharp"
             size={Device.deviceType !== 1 ? 32 : 24}
             color={colors.secondary}
             style={[styles.caret, { marginTop: Device.deviceType !== 1 ? -56 - 12 : -40 - 8 }]}

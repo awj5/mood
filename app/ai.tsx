@@ -1,11 +1,28 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
 import { Stack } from "expo-router";
+import { useHeaderHeight } from "@react-navigation/elements";
+import Response from "components/ai/Response";
+import Input from "components/ai/Input";
 
 export default function AI() {
+  const headerHeight = useHeaderHeight();
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ title: "", headerBackTitle: "Back" }} />
-    </View>
+
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={headerHeight}
+      >
+        <ScrollView>
+          <Response />
+        </ScrollView>
+
+        <Input />
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

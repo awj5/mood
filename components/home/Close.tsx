@@ -1,7 +1,7 @@
 import { StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { CircleX } from "lucide-react-native";
 import { pressedDefault } from "utils/helpers";
 
 type CloseProps = {
@@ -22,10 +22,10 @@ export default function Close(props: CloseProps) {
       ]}
       hitSlop={16}
     >
-      <Ionicons
-        name="close-circle"
-        size={Device.deviceType !== 1 ? 40 : 32}
+      <CircleX
         color={props.angle >= 120 && props.angle <= 180 ? "white" : "black"}
+        size={Device.deviceType !== 1 ? 40 : 32}
+        absoluteStrokeWidth
       />
     </Pressable>
   );

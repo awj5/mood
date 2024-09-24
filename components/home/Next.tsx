@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import useDeviceDimensions from "utils/useDeviceDimensions";
+import { CircleArrowRight } from "lucide-react-native";
+import { DimensionsContext, DimensionsContextType } from "context/dimensions";
 import { theme, pressedDefault } from "utils/helpers";
 
 type NextProps = {
@@ -15,7 +15,7 @@ export default function Next(props: NextProps) {
   const opacity = useSharedValue(0);
   const insets = useSafeAreaInsets();
   const colors = theme();
-  const device = useDeviceDimensions();
+  const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
 
   useEffect(() => {
     opacity.value = withDelay(1500, withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) }));
@@ -25,18 +25,18 @@ export default function Next(props: NextProps) {
     <Animated.View
       style={[
         styles.container,
-        device.width > device.height ? styles.landscape : styles.portrait,
+        dimensions.width > dimensions.height ? styles.landscape : styles.portrait,
         {
           opacity,
           paddingBottom: insets.bottom,
         },
-        device.width > device.height
+        dimensions.width > dimensions.height
           ? { paddingLeft: Device.deviceType !== 1 ? 224 : 152, paddingTop: insets.top }
           : { paddingTop: Device.deviceType !== 1 ? 224 : 152 },
       ]}
     >
       <Pressable onPress={() => props.setShowList(true)} style={({ pressed }) => pressedDefault(pressed)} hitSlop={16}>
-        <Ionicons name="arrow-forward-circle-outline" size={Device.deviceType !== 1 ? 96 : 72} color={colors.primary} />
+        <CircleArrowRight color={colors.primary} size={Device.deviceType !== 1 ? 88 : 64} absoluteStrokeWidth />
       </Pressable>
     </Animated.View>
   );

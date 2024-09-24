@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
 import * as Device from "expo-device";
 import { StatusBar } from "expo-status-bar";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Check } from "lucide-react-native";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { EmotionType } from "app";
 import { pressedDefault } from "utils/helpers";
@@ -49,17 +49,16 @@ function Item(props: ItemProps) {
           style={[
             styles.checkmark,
             {
-              borderWidth: Device.deviceType !== 1 ? 2 : 1.5,
               padding: Device.deviceType !== 1 ? 4 : 2,
               borderColor: props.angle >= 120 && props.angle <= 180 ? "white" : "black",
             },
           ]}
         >
           <Animated.View style={[animatedStyles, styles.check]}>
-            <Ionicons
-              name="checkmark"
-              size={Device.deviceType !== 1 ? 32 : 24}
+            <Check
               color={props.angle >= 120 && props.angle <= 180 ? "white" : "black"}
+              size={Device.deviceType !== 1 ? 32 : 24}
+              absoluteStrokeWidth
             />
           </Animated.View>
         </View>
@@ -109,6 +108,7 @@ const styles = StyleSheet.create({
   },
   checkmark: {
     borderRadius: 999,
+    borderWidth: 2,
   },
   check: {
     transformOrigin: "bottom left",

@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import * as Device from "expo-device";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, runOnJS } from "react-native-reanimated";
-import useDeviceDimensions from "utils/useDeviceDimensions";
+import { DimensionsContext, DimensionsContextType } from "context/dimensions";
 
 type WheelProps = {
   setAngle: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function Wheel(props: WheelProps) {
-  const dimensions = useDeviceDimensions();
+  const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
   const opacity = useSharedValue(0);
   const rotation = useSharedValue(-360);
   const previousRotation = useSharedValue(0); // Store the previous rotation

@@ -1,18 +1,18 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import * as Device from "expo-device";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Easing, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
+import { DimensionsContext, DimensionsContextType } from "context/dimensions";
 
 type ListHeadingProps = {
-  width: number;
-  height: number;
   angle: number;
 };
 
 export default function ListHeading(props: ListHeadingProps) {
   const opacity = useSharedValue(0);
   const insets = useSafeAreaInsets();
+  const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
 
   useEffect(() => {
     opacity.value = withDelay(500, withTiming(1, { duration: 500, easing: Easing.in(Easing.cubic) }));
@@ -22,12 +22,12 @@ export default function ListHeading(props: ListHeadingProps) {
     <Animated.View
       style={[
         styles.container,
-        props.width > props.height ? styles.landscape : styles.portrait,
+        dimensions.width > dimensions.height ? styles.landscape : styles.portrait,
         {
           opacity,
           paddingTop: insets.top,
         },
-        props.width > props.height
+        dimensions.width > dimensions.height
           ? { paddingRight: Device.deviceType !== 1 ? 224 : 152, paddingBottom: insets.bottom }
           : { paddingBottom: Device.deviceType !== 1 ? 224 : 152 },
       ]}
@@ -37,7 +37,7 @@ export default function ListHeading(props: ListHeadingProps) {
           styles.text,
           {
             color: props.angle >= 120 && props.angle <= 180 ? "white" : "black",
-            fontSize: Device.deviceType !== 1 ? (props.width > props.height ? 30 : 36) : 24,
+            fontSize: Device.deviceType !== 1 ? (dimensions.width > dimensions.height ? 30 : 36) : 24,
           },
         ]}
       >
