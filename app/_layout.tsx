@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Dimensions } from "react-native";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -6,14 +7,17 @@ import * as Device from "expo-device";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { DimensionsContext, DimensionsType } from "context/dimensions";
 import { theme } from "../utils/helpers";
-import useDeviceDimensions from "utils/useDeviceDimensions";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
   const colors = theme();
-  const device = useDeviceDimensions();
-  const [dimensions, setDimensions] = useState<DimensionsType>({ width: 0, height: 0 });
+  const height = Dimensions.get("screen").height;
+  const width = Dimensions.get("screen").width;
+  const [dimensions, setDimensions] = useState<DimensionsType>({ width: width, height: height });
+  const initWidth = width;
+  const initHeight = height;
+  const initOrientation = width > height ? "landscape" : "portrait";
 
   const [fontsLoaded, fontError] = useFonts({
     "Circular-Black": require("../assets/fonts/lineto-circular-black.ttf"),
@@ -27,16 +31,27 @@ export default function Layout() {
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    setDimensions({ width: device.width, height: device.height });
-  }, [device]);
+    const subscription = ScreenOrientation.addOrientationChangeListener((e) => {
+      if (
+        (initOrientation === "portrait" && e.orientationInfo.orientation === 3) ||
+        (initOrientation === "portrait" && e.orientationInfo.orientation === 4) ||
+        (initOrientation === "landscape" && e.orientationInfo.orientation !== 3 && e.orientationInfo.orientation !== 4)
+      ) {
+        setDimensions({ width: initHeight, height: initWidth });
+      } else {
+        setDimensions({ width: initWidth, height: initHeight });
+      }
+    });
 
-  if (!fontsLoaded && !fontError) return null; // Show splash until fonts ready
+    return () => ScreenOrientation.removeOrientationChangeListener(subscription); // Clean up
+  }, []);
 
   const changeScreenOrientation = async () => {
     await ScreenOrientation.unlockAsync();
   };
 
   if (Device.deviceType === 2) changeScreenOrientation(); // Allow landscape on tablets
+  if (!fontsLoaded && !fontError) return null; // Show splash until fonts ready
 
   return (
     <DimensionsContext.Provider value={{ dimensions, setDimensions }}>

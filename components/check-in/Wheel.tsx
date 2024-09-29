@@ -14,8 +14,8 @@ export default function Wheel(props: WheelProps) {
   const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
   const opacity = useSharedValue(0);
   const rotation = useSharedValue(-360);
-  const previousRotation = useSharedValue(0); // Store the previous rotation
-  const startAngle = useSharedValue(0); // Track the starting angle of the gesture
+  const previousRotation = useSharedValue(0);
+  const startAngle = useSharedValue(0);
   const size = Device.deviceType !== 1 ? 448 : 304; // Smaller on phones
 
   const pan = Gesture.Pan()
@@ -65,7 +65,7 @@ export default function Wheel(props: WheelProps) {
             height: size,
           },
         ]}
-        hitSlop={32}
+        hitSlop={8}
       >
         <Image source={require("../../assets/img/wheel.png")} style={styles.image} />
       </Animated.View>

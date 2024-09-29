@@ -9,6 +9,7 @@ import { pressedDefault } from "utils/helpers";
 
 type DoneProps = {
   angle: number;
+  words: number[];
 };
 
 export default function Done(props: DoneProps) {
@@ -18,8 +19,15 @@ export default function Done(props: DoneProps) {
   const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
 
   useEffect(() => {
-    opacity.value = withDelay(2000, withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) }));
-  }, []);
+    if (props.words.length) {
+      opacity.value = withTiming(1, { duration: 300, easing: Easing.in(Easing.cubic) });
+    } else {
+      opacity.value = withDelay(
+        !opacity.value ? 2000 : 0,
+        withTiming(0.25, { duration: 300, easing: Easing.in(Easing.cubic) })
+      );
+    }
+  }, [props.words]);
 
   return (
     <Animated.View
@@ -36,7 +44,7 @@ export default function Done(props: DoneProps) {
       ]}
     >
       <Pressable
-        onPress={() => router.push("ai")}
+        onPress={() => router.push("chat")}
         style={({ pressed }) => [
           pressedDefault(pressed),
           styles.button,
@@ -47,6 +55,7 @@ export default function Done(props: DoneProps) {
           },
         ]}
         hitSlop={16}
+        disabled={props.words.length ? false : true}
       >
         <Text
           style={[

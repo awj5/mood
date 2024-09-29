@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
   text: {
     flexShrink: 1,
     fontFamily: "Circular-Book",
-    maxWidth: 672,
+    maxWidth: 512,
   },
 });

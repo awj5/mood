@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
@@ -13,7 +13,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { DimensionsContext, DimensionsContextType } from "context/dimensions";
-import { EmotionType } from "app";
+import { EmotionType } from "app/check-in";
 import { theme } from "utils/helpers";
 
 type EmojiProps = {
@@ -29,7 +29,6 @@ export default function Emoji(props: EmojiProps) {
   const width = useSharedValue(0);
   const height = useSharedValue(0);
   const { dimensions } = useContext<DimensionsContextType>(DimensionsContext);
-  const [expanded, setExpanded] = useState(false);
   const size = Device.deviceType !== 1 ? 384 : 260; // Smaller on phones
 
   const emoji = {
@@ -67,14 +66,12 @@ export default function Emoji(props: EmojiProps) {
       width.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
       height.value = withTiming(fullscreen, { duration: 500, easing: Easing.in(Easing.cubic) });
       borderRadius.value = withTiming(0, { duration: 500, easing: Easing.in(Easing.cubic) });
-      setExpanded(true);
     } else {
       // Reset
       runOnJS(() => {
         width.value = size;
         height.value = size;
         borderRadius.value = 999;
-        setExpanded(false);
       })();
     }
   }, [props.showList]);
@@ -84,8 +81,8 @@ export default function Emoji(props: EmojiProps) {
   }, []);
 
   return (
-    <Animated.View style={[styles.container, animatedStyles, { zIndex: expanded ? 1 : 0 }]}>
-      {!expanded && (
+    <Animated.View style={[styles.container, animatedStyles, { zIndex: props.showList ? 1 : 0 }]}>
+      {!props.showList && (
         <>
           <Ionicons
             name="caret-down-sharp"

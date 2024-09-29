@@ -1,10 +1,10 @@
 import { StyleSheet, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
 import { Stack } from "expo-router";
 import { useHeaderHeight } from "@react-navigation/elements";
-import Response from "components/ai/Response";
-import Input from "components/ai/Input";
+import Response from "components/chat/Response";
+import Input from "components/chat/Input";
 
-export default function AI() {
+export default function Chat() {
   const headerHeight = useHeaderHeight();
 
   return (
