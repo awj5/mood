@@ -42,7 +42,7 @@ export default function Emoji(props: EmojiProps) {
     excited: require("../../assets/img/emoji/excited.svg"),
     stars: require("../../assets/img/emoji/stars.svg"),
     sad: require("../../assets/img/emoji/sad.svg"),
-    shocked: require("../../assets/img/emoji/shocked.svg"),
+    cool: require("../../assets/img/emoji/cool.svg"),
     grin: require("../../assets/img/emoji/grin.svg"),
   };
 
